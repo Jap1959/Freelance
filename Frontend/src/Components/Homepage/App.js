@@ -1,9 +1,10 @@
 import React from 'react';
 import { AppBar, Button, CssBaseline, Divider, Drawer, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
-const navItems = [{ item: 'Home', val: '/' }, { item: 'Services', val: '' }, { item: 'About Us', val: '' }, { item: 'Contact Us', val: '' }];
+const navItems = [{ item: 'Home', val: '/' }, { item: 'Services', val: '/Services' }, { item: 'About Us', val: '' }, { item: 'Contact Us', val: '/Contactus' }];
 
 function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -21,10 +22,12 @@ function DrawerAppBar() {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton
-              sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item.item} />
-            </ListItemButton>
+            <Link style={{ textDecoration: 'none', color: '#767575' }} to={`${item.val}`}>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}>
+                <ListItemText style={{color:`${window.location.pathname===item.val?'#FB7902':'#767575'}`}}  primary={item.item} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -38,7 +41,7 @@ function DrawerAppBar() {
       <AppBar position="fixed" component="nav" sx={{ px: '16px', py: '8px' }}>
         <Toolbar>
           <Grid container justifyContent="space-around" alignItems="center">
-            
+
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -54,17 +57,21 @@ function DrawerAppBar() {
             <Hidden smDown>
               <div sx={{ display: 'flex', justifyContent: 'center' }}>
                 {navItems.map((item) => (
-                  <Button key={item} sx={{ color: 'black', mx: 2 }}>
-                    <Typography color={window.location.pathname === item.val ? 'secondary' : 'secondary1'}>
-                      {item.item}
-                    </Typography>
-                  </Button>
+                  <Link style={{ textDecoration: 'none', color: '#767575' }} to={`${item.val}`}>
+                    <Button key={item} sx={{ color: 'black', mx: 2 }}>
+                      <Typography color={window.location.pathname === item.val ? 'secondary' : 'secondary1'}>
+                        {item.item}
+                      </Typography>
+                    </Button>
+                  </Link>
                 ))}
               </div>
             </Hidden>
-            <Button variant="contained" color="secondary">
-              Book Now
-            </Button>
+            <Link style={{ textDecoration: 'none' }} to='/Book'>
+              <Button variant="contained" color="secondary">
+                Book Now
+              </Button>
+            </Link>
           </Grid>
         </Toolbar>
       </AppBar>

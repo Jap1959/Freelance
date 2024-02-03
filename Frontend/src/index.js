@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import theme from './Components/Theme/theme';
-
 import { ThemeProvider } from '@emotion/react';
 import Navigation from './Navigation';
-import Navbar from './Components/Homepage/App';
 import './index.css';
 
 

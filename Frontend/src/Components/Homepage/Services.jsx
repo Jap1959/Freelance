@@ -7,6 +7,7 @@ import { FaArrowRight } from "react-icons/fa";
 import Service1 from '../../Images/service1.jpg';
 import Service2 from '../../Images/service2.jpg';
 import Service3 from '../../Images/service3.jpg';
+import { Link } from 'react-router-dom';
 const ServicesSection = () => {
     const photos = [
         { id: 1, src: Service1, alt: 'Service 1' },
@@ -37,14 +38,14 @@ const ServicesSection = () => {
             <br></br>
             <br></br>
             <center>
-                <Button size="large" variant="contained" color="secondary1">
+                <Link to={'/Services'}><Button size="large" variant="contained" color="secondary1">
                     <Typography fontSize={'1.5rem'} color={'white'}>
                         <center>
                             Explore Services
                             <span> <FaArrowRight /></span>
                         </center>
                     </Typography>
-                </Button>
+                </Button></Link>
             </center>
         </div>
     );
