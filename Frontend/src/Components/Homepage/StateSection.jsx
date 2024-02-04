@@ -31,7 +31,7 @@ const StatsSection = () => {
                         20+
                     </Typography>
                     <Typography variant="h4" align="center" gutterBottom>
-                        Service Numbers
+                        Services
                     </Typography>
                 </Grid>
             </Grid>

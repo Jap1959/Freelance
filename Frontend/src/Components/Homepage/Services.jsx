@@ -7,6 +7,8 @@ import { FaArrowRight } from "react-icons/fa";
 import Service1 from '../../Images/service1.jpg';
 import Service2 from '../../Images/service2.jpg';
 import Service3 from '../../Images/service3.jpg';
+import { Link } from 'react-router-dom';
+import { Superscript } from '@mui/icons-material';
 const ServicesSection = () => {
     const photos = [
         { id: 1, src: Service1, alt: 'Service 1' },
@@ -17,8 +19,8 @@ const ServicesSection = () => {
     return (
         <div style={{ marginBottom: '5rem' }}>
             <center style={{ marginBottom: '2rem' }}>
-                <Typography variant='h4'>
-                    Services provided by <span className='Secondary'>Brand Name</span>
+                <Typography variant='h5'>
+                    Services provided by <span className='Secondary'>Milli's Makeover</span>
                 </Typography>
             </center>
             <Carousel
@@ -29,7 +31,7 @@ const ServicesSection = () => {
                 showStatus={false}
             >
                 {photos.map((photo) => (
-                    <Container sx={{ maxWidth: 'xl', height: '35rem' }} key={photo.id}>
+                    <Container sx={{ maxWidth: 'xl', minHeight: '25rem', maxHeight: '35rem' }} key={photo.id}>
                         <img src={photo.src} alt={photo.alt} />
                     </Container>
                 ))}
@@ -37,14 +39,14 @@ const ServicesSection = () => {
             <br></br>
             <br></br>
             <center>
-                <Button size="large" variant="contained" color="secondary1">
+                <Link to={'/Services'}><Button size="large" variant="contained" color="secondary1">
                     <Typography fontSize={'1.5rem'} color={'white'}>
                         <center>
                             Explore Services
                             <span> <FaArrowRight /></span>
                         </center>
                     </Typography>
-                </Button>
+                </Button></Link>
             </center>
         </div>
     );

@@ -16,3 +16,20 @@ code {
 .Secondary {
   color: #FB7902;
 }
+
+.Text {
+  color: #767575;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
+
+input[type="select"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+}
+

@@ -2,14 +2,14 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
 import Hero from '../../Images/Herosection1.jpg';
 import '../../index.css';
-function HeroSection() {
+function HeroSectionMobile() {
     return (
         <Container style={{ backgroundColor: '#FFFBF2', marginBottom: '3rem' }}>
             <Grid container>
                 <Grid item xs={12} >
                     <CardContent>
                         <Container maxWidth="md">
-                            <Typography variant="h3" >
+                            <Typography variant="h6" >
                                 <center>
                                     We Show your <span className='Secondary'>skin,hair</span> and
                                     <span className='Secondary'> body</span> the care and attention they deserve
@@ -23,7 +23,7 @@ function HeroSection() {
                         <CardMedia
                             sx={{ maxWidth: 'lg' }}
                             component="img"
-                            height="auto"
+                            height="500"
                             image={Hero}
                             alt="Placeholder"
                         />
@@ -34,4 +34,4 @@ function HeroSection() {
     );
 }
 
-export default HeroSection;
+export default HeroSectionMobile;
