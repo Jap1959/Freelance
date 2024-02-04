@@ -5,15 +5,17 @@ import Footer from "./Footer";
 import ServicesSection from "./Services";
 import TestimonialSection from "./Testimonial";
 import StatsSection from "./StateSection";
+import HeroSectionMobile from "./HerosectionMobile";
+import TestimonialSectionMobile from "./TestimonialMobile";
 
 
-function HomePage() {
+function HomePage(props) {
     return (
         <>
             <Navbar />
-            <HeroSection />
+            {props.mobile ? <HeroSectionMobile /> : <HeroSection />}
             <ServicesSection />
-            <TestimonialSection />
+            {props.mobile ? <TestimonialSectionMobile /> : <TestimonialSection />}
             <StatsSection />
             <Footer />
         </>

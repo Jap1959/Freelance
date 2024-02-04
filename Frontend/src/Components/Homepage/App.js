@@ -15,21 +15,29 @@ function DrawerAppBar() {
 
   const drawer = (
     <div onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2, marginLeft: '4rem' }}>
-        Brand Name
+      <Typography variant="h5" align='center' component="div" marginTop={'0.5rem'}>
+        Milli's <span className='Secondary'>Makeover</span>
       </Typography>
-      <Divider />
-      <List>
+      <Divider style={{ marginTop: '0.5rem' }} />
+
+      <List justifyContent='center'>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <Link style={{ textDecoration: 'none', color: '#767575' }} to={`${item.val}`}>
               <ListItemButton
                 sx={{ textAlign: 'center' }}>
-                <ListItemText style={{color:`${window.location.pathname===item.val?'#FB7902':'#767575'}`}}  primary={item.item} />
+                <ListItemText style={{ color: `${window.location.pathname === item.val ? '#FB7902' : '#767575'}` }} primary={item.item} />
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
+        <ListItem >
+          <Link style={{ textDecoration: 'none' }} to='/Book'>
+            <Button variant="contained" color="secondary">
+              Book Now
+            </Button>
+          </Link>
+        </ListItem>
       </List>
     </div>
   );
@@ -40,8 +48,11 @@ function DrawerAppBar() {
       <CssBaseline />
       <AppBar position="fixed" component="nav" sx={{ px: '16px', py: '8px' }}>
         <Toolbar>
-          <Grid container justifyContent="space-around" alignItems="center">
+          <Grid container justifyContent="space-between" alignItems="center">
 
+            <Typography variant="h6" component="div">
+              Milli's <span className='Secondary'>Makeover</span>
+            </Typography>
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -51,9 +62,6 @@ function DrawerAppBar() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" component="div">
-              Brand Name
-            </Typography>
             <Hidden smDown>
               <div sx={{ display: 'flex', justifyContent: 'center' }}>
                 {navItems.map((item) => (
@@ -65,13 +73,13 @@ function DrawerAppBar() {
                     </Button>
                   </Link>
                 ))}
+                <Link style={{ textDecoration: 'none' }} to='/Book'>
+                  <Button variant="contained" color="secondary">
+                    Book Now
+                  </Button>
+                </Link>
               </div>
             </Hidden>
-            <Link style={{ textDecoration: 'none' }} to='/Book'>
-              <Button variant="contained" color="secondary">
-                Book Now
-              </Button>
-            </Link>
           </Grid>
         </Toolbar>
       </AppBar>
@@ -92,7 +100,6 @@ function DrawerAppBar() {
       <Grid item xs={12} sx={{ p: 3 }}>
         <Toolbar />
         <Typography>
-          {/* Your main content */}
         </Typography>
       </Grid>
     </Grid>

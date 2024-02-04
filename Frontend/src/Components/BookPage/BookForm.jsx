@@ -1,14 +1,62 @@
-import React from 'react';
-import { Grid, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel, Container } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel, Container, IconButton } from '@mui/material';
 import '../../index.css';
+import axios from 'axios';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 const BookNowForm = () => {
+    const [FormData, setFormData] = useState({
+        Name: '', Email: '',
+        Service: '',
+        Mobile: '', Address: '',
+    });
+    const yesterday = dayjs().subtract(1, 'day');
+    const [SelectService, setSelectService] = useState('Haircut');
+    const [SelectTypeService, setSelectTypeService] = useState('Door to Door');
+    const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+
+    const handleDateTimeChange = (newDateTime) => {
+        setSelectedDateTime(newDateTime);
+    };
+    const handleSelect = (e) => {
+        const { name, value } = e.target;
+        setSelectService(value);
+    }
+    const handleTypeSelect = (e) => {
+        const { name, value } = e.target;
+        setSelectTypeService(value);
+    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...FormData, [name]: value });
+    };
+
+    const handleSend = async (e) => {
+        e.preventDefault();
+        try {
+            const { Name, Email, Mobile, Note, } = FormData;
+            const Data = { Name: Name, Email: Email, Date: selectedDateTime, Mobile: Mobile, Note: Note, Service: SelectService };
+            const response = await axios.post('https://salonbackend-s9q2.onrender.com/Book', Data);
+            if (!response.status === 200) {
+                throw new Error('Failed to send email');
+            }
+            console.log(response.data.status);
+            console.log('Email sent successfully');
+            // Optionally reset form fields here
+        } catch (error) {
+            console.error('Error sending email:', error.message);
+        }
+    };
+
     return (
-        <Container maxWidth="md" sx={{ marginTop: '2rem', padding: '2rem', marginBottom: '2rem', backgroundColor: '#1E1E1E' }}>
-            <center style={{marginBottom:'1rem'}}>
+        <Container maxWidth="md" sx={{ marginTop: '2rem', padding: '2rem', marginBottom: '2rem', backgroundColor: '#1E1E1E', height: '100%' }}>
+            <center style={{ marginBottom: '1rem' }}>
                 <Typography variant="h5" color={'white'} gutterBottom>
                     Appointment Form
                 </Typography>
-                <Typography fontSize={'1rem'}  color={'#767575'} gutterBottom>
+                <Typography fontSize={'1rem'} color={'#767575'} gutterBottom>
                     Please Fill the Form to Book Appointment
                 </Typography>
             </center>
@@ -17,6 +65,9 @@ const BookNowForm = () => {
                     <TextField
                         fullWidth
                         label="Name"
+                        name='Name'
+                        onChange={handleChange}
+                        value={FormData.Name}
                         variant="outlined"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{ style: { color: 'white' } }}
@@ -28,6 +79,9 @@ const BookNowForm = () => {
                     <TextField
                         fullWidth
                         label="Email"
+                        name='Email'
+                        onChange={handleChange}
+                        value={FormData.Email}
                         variant="outlined"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{ style: { color: 'white' } }}
@@ -39,6 +93,9 @@ const BookNowForm = () => {
                     <TextField
                         fullWidth
                         label="Phone"
+                        name='Mobile'
+                        onChange={handleChange}
+                        value={FormData.Mobile}
                         variant="outlined"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{ style: { color: 'white' } }}
@@ -50,8 +107,26 @@ const BookNowForm = () => {
                         sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' }, '&.Mui-focused fieldset': { borderColor: 'white' } } }}
                         fullWidth variant="outlined">
                         <InputLabel style={{ color: 'white' }}>Type of Service</InputLabel>
-                        <Select label="Type of Service" inputProps={{ style: { color: 'white' } }}
-
+                        <Select
+                            onChange={handleTypeSelect}
+                            name='Service' value={SelectTypeService} label="Type of Service"
+                            sx={{ '& .MuiSelect-icon': { color: 'white' }, '& .MuiSelect-select': { color: 'white' } }}
+                        >
+                            <MenuItem value="Door to Door">Door to Door</MenuItem>
+                            <MenuItem value="Onsite">Onsite</MenuItem>
+                            {/* Add more service types as needed */}
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <FormControl
+                        sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' }, '&.Mui-focused fieldset': { borderColor: 'white' } } }}
+                        fullWidth variant="outlined">
+                        <InputLabel style={{ color: 'white' }}>Service</InputLabel>
+                        <Select
+                            onChange={handleSelect}
+                            name='Service' value={SelectService} label="Service"
+                            sx={{ '& .MuiSelect-icon': { color: 'white' }, '& .MuiSelect-select': { color: 'white' } }}
                         >
                             <MenuItem value="Haircut">Haircut</MenuItem>
                             <MenuItem value="Manicure">Manicure</MenuItem>
@@ -61,44 +136,51 @@ const BookNowForm = () => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField
-                        fullWidth
-                        label="Choose Date"
-                        type="date"
-                        variant="outlined"
-                        InputLabelProps={{ shrink: true, style: { color: 'white' } }}
-                        InputProps={{
-                            style: { color: 'white' },
-                        }}
-                        sx={{
-                            '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' }, '&.Mui-focused fieldset': { borderColor: 'white' } },
-                        }}
-
-                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                            defaultValue={yesterday}
+                            disablePast
+                            sx={{
+                                '& input': {
+                                    color: 'white', // Change input value color
+                                },
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: 'white', 
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: 'white', 
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: 'white', 
+                                    },
+                                },
+                                '& .MuiIconButton-root': {
+                                    color: 'white', // Change icon color
+                                },
+                                width: '100%'
+                            }}
+                            views={['year', 'month', 'day', 'hours', 'minutes']}
+                        />
+                        {/* <DateTimePicker
+                            renderInput={(props) => (
+                                <TextField {...props} fullWidth label="Choose Date and Time" variant="outlined" />
+                            )}
+                            value={selectedDateTime}
+                            onChange={handleDateTimeChange}
+                            minDate={new Date()} // Set minimum selectable date and time to current date and time
+                            disablePast // Disable past dates and times
+                        /> */}
+                    </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+
+                {SelectTypeService === 'Door to Door' && <Grid item xs={12}>
                     <TextField
                         fullWidth
-                        label="Choose Time"
-                        type="time"
-
-                        variant="outlined"
-                        InputLabelProps={{
-                            shrink: true, style: { color: 'white' },
-
-                        }}
-                        InputProps={{
-                            style: { color: 'white', },
-
-                        }}
-                        sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' }, '&.Mui-focused fieldset': { borderColor: 'white' }, '& input': { color: 'white' } } }}
-
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        fullWidth
-                        label="Note"
+                        label="Address"
+                        name='Address'
+                        onChange={handleChange}
+                        value={FormData.Note}
                         variant="outlined"
                         multiline
                         rows={4}
@@ -106,14 +188,14 @@ const BookNowForm = () => {
                         InputProps={{ style: { color: 'white', } }}
                         sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: 'white' }, '&:hover fieldset': { borderColor: 'white' }, '&.Mui-focused fieldset': { borderColor: 'white' } } }}
                     />
-                </Grid>
+                </Grid>}
                 <Grid item xs={12}>
-                    <Button variant="contained" color="primary">
+                    <Button onClick={handleSend} variant="contained" color="primary">
                         Book Now
                     </Button>
                 </Grid>
             </Grid>
-        </Container >
+        </Container>
     );
 };
 

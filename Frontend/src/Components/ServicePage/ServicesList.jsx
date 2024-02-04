@@ -9,13 +9,19 @@ const services = [
     { name: 'Manicure', price: '$20', image: Service3 },
     { name: 'Pedicure', price: '$30', image: Service1 },
     { name: 'SkinCare', price: '$30', image: Service1 },
-    // Add more services as needed
 ];
 
 const ServicesList = () => {
     return (
         <Container maxWidth="lg" sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
-            <Grid container spacing={4}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} >
+                    <center>
+                        <Typography variant="h4" justifyContent={'center'}  >
+                            Explore <span className='Secondary'>Services</span>
+                        </Typography>
+                    </center>
+                </Grid>
                 {services.map((service, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
                         <Card
@@ -43,7 +49,7 @@ const ServicesList = () => {
                                     Starting Price: <span className='Secondary'>{service.price}</span>
                                 </Typography>
                                 <div style={{ marginTop: '1rem' }}>
-                                    <Link style={{textDecoration:'none'}} to='/Enquire'><Button variant="outlined" color="secondary" sx={{ marginRight: 1 }}>
+                                    <Link style={{ textDecoration: 'none' }} to='/Enquire'><Button variant="outlined" color="secondary" sx={{ marginRight: 1 }}>
                                         Enquire
                                     </Button></Link>
                                     <Button variant="contained" color="secondary">

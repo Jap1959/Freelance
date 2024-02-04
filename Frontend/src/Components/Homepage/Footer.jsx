@@ -9,7 +9,7 @@ function Footer() {
                 <Container>
                     <Grid container spacing={3} sx={{ paddingTop: '2rem', paddingBottom: '5rem' }}>
                         {/* Brand and Useful Links */}
-                        <Grid item xs={12} sm={1}>
+                        <Grid item xs={6} md={1}>
                             <Typography variant="h5" color="secondary">
                                 Brand
                             </Typography>
@@ -24,7 +24,7 @@ function Footer() {
                         </Grid>
 
                         {/* Support */}
-                        <Grid item xs={12} sm={2} >
+                        <Grid item xs={6} md={2} >
                             <Typography variant="h5" color="secondary">
                                 Support
                             </Typography>
@@ -41,7 +41,7 @@ function Footer() {
                             </Grid>
                         </Grid>
                         {/* Useful Links */}
-                        <Grid item xs={12} sm={2} >
+                        <Grid item xs={6} md={2} >
                             <Typography variant="h5" color="secondary">
                                 Useful Links
                             </Typography>
@@ -58,7 +58,7 @@ function Footer() {
                             </Grid>
                         </Grid>
                         {/* Useful Links */}
-                        <Grid item xs={12} sm={3} >
+                        <Grid item xs={6} md={3} >
                             <Typography variant="h5" color="secondary">
                                 Connect
                             </Typography>
@@ -78,7 +78,7 @@ function Footer() {
                             </Grid>
                         </Grid>
 
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} md={4}>
                             <center style={{ marginBottom: '1rem' }}>
                                 <Typography variant="h4" color="inherit">
                                     Get to know more
@@ -121,25 +121,27 @@ function Footer() {
                 <Divider sx={{ maxWidth: 'lg' }} />
             </center>
             {/* All Rights Reserved */}
-            <Grid container direction="row" spacing={3} sx={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
-                {/* Brand Name */}
-                <Grid item xs={5}>
-                    <Typography variant="h5" align="center" color="secondary">
-                        BrandName
-                    </Typography>
+            <center>
+                <Grid container maxWidth={'lg'} direction="row" spacing={3} sx={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
+                    {/* Brand Name */}
+                    <Grid item xs={4}>
+                        <Typography variant="h6" align='center' component="div">
+                            Milli's <span className='Secondary'>Makeover</span>
+                        </Typography>
+                    </Grid>
+                    {/* Copyright Information */}
+                    <Grid item xs={4}>
+                        <Typography variant="body" align="center" color="inherit">
+                            &copy; {new Date().getFullYear()}   Milli's <span className='Secondary'>Makeover</span> All rights reserved.
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Typography variant="body" align="center" color="inherit">
+                            Exprience the <span className='Secondary'>Royality</span>
+                        </Typography>
+                    </Grid>
                 </Grid>
-                {/* Copyright Information */}
-                <Grid item xs={4}>
-                    <Typography variant="body" align="center" color="inherit">
-                        &copy; {new Date().getFullYear()} BrandName. All rights reserved.
-                    </Typography>
-                </Grid>
-                <Grid item xs={3}>
-                    <Typography variant="body" align="center" color="inherit">
-                        Exprience the <span className='Secondary'>Royality</span>
-                    </Typography>
-                </Grid>
-            </Grid>
+            </center>
         </AppBar>
     );
 }
