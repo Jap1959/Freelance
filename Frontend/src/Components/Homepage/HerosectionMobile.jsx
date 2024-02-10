@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
-import Hero from '../../Images/Herosection1.jpg';
+import {  CardContent, CardMedia, Container, Grid, Typography } from '@mui/material';
+import Hero from '../../Images/service1.jpg';
 import '../../index.css';
 function HeroSectionMobile() {
     return (
@@ -23,7 +23,7 @@ function HeroSectionMobile() {
                         <CardMedia
                             sx={{ maxWidth: 'lg' }}
                             component="img"
-                            height="500"
+                            height="300"
                             image={Hero}
                             alt="Placeholder"
                         />

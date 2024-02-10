@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel, Container, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Typography, TextField, Button, Select, MenuItem, FormControl, InputLabel, Container, Snackbar, Alert } from '@mui/material';
 import '../../index.css';
 import axios from 'axios';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -16,16 +16,26 @@ const BookNowForm = () => {
     const [SelectService, setSelectService] = useState('Haircut');
     const [SelectTypeService, setSelectTypeService] = useState('Door to Door');
     const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: '',
+    });
+    const { vertical, horizontal, open, message } = state;
 
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
     const handleDateTimeChange = (newDateTime) => {
         setSelectedDateTime(newDateTime);
     };
     const handleSelect = (e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         setSelectService(value);
     }
     const handleTypeSelect = (e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         setSelectTypeService(value);
     }
     const handleChange = (e) => {
@@ -36,15 +46,18 @@ const BookNowForm = () => {
     const handleSend = async (e) => {
         e.preventDefault();
         try {
-            const { Name, Email, Mobile, Note, } = FormData;
-            const Data = { Name: Name, Email: Email, Date: selectedDateTime, Mobile: Mobile, Note: Note, Service: SelectService };
+            const { Name, Email, Mobile, Address } = FormData;
+            const Data = { Name: Name, Email: Email, date: selectedDateTime, Mobile: Mobile, Address: Address, Service: SelectService, Servicetype: SelectTypeService };
             const response = await axios.post('https://salonbackend-s9q2.onrender.com/Book', Data);
             if (!response.status === 200) {
                 throw new Error('Failed to send email');
             }
-            console.log(response.data.status);
-            console.log('Email sent successfully');
-            // Optionally reset form fields here
+            setState({ ...state, open: true, message: response.data.message });
+            setFormData({
+                Name: '', Email: '',
+                Service: '',
+                Mobile: '', Address: '',
+            });
         } catch (error) {
             console.error('Error sending email:', error.message);
         }
@@ -139,6 +152,7 @@ const BookNowForm = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DateTimePicker
                             defaultValue={yesterday}
+                            onChange={handleDateTimeChange}
                             disablePast
                             sx={{
                                 '& input': {
@@ -146,13 +160,13 @@ const BookNowForm = () => {
                                 },
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
-                                        borderColor: 'white', 
+                                        borderColor: 'white',
                                     },
                                     '&:hover fieldset': {
-                                        borderColor: 'white', 
+                                        borderColor: 'white',
                                     },
                                     '&.Mui-focused fieldset': {
-                                        borderColor: 'white', 
+                                        borderColor: 'white',
                                     },
                                 },
                                 '& .MuiIconButton-root': {
@@ -180,7 +194,7 @@ const BookNowForm = () => {
                         label="Address"
                         name='Address'
                         onChange={handleChange}
-                        value={FormData.Note}
+                        value={FormData.Address}
                         variant="outlined"
                         multiline
                         rows={4}
@@ -195,6 +209,23 @@ const BookNowForm = () => {
                     </Button>
                 </Grid>
             </Grid>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                severity="success"
+                onClose={handleClose}
+                autoHideDuration={3000}
+                key={vertical + horizontal}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };

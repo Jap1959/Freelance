@@ -1,18 +1,24 @@
-import React from 'react';
-import { AppBar, Button, CssBaseline, Divider, Drawer, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from '@mui/material';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
+import { AppBar, Badge, Button, CssBaseline, Divider, Drawer, Grid, Hidden, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
-
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { userContext } from '../../Navigation';
+import axios from 'axios';
+import { initialState, reducer } from '../../reducer';
 const drawerWidth = 240;
 const navItems = [{ item: 'Home', val: '/' }, { item: 'Services', val: '/Services' }, { item: 'About Us', val: '' }, { item: 'Contact Us', val: '/Contactus' }];
 
 function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const { state } = React.useContext(userContext);
+  useEffect(() => {
+    console.log(state);
+  }, [state])
   const drawer = (
     <div onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h5" align='center' component="div" marginTop={'0.5rem'}>
@@ -31,12 +37,33 @@ function DrawerAppBar() {
             </Link>
           </ListItem>
         ))}
+        {state.login === true && <ListItem >
+          <Link style={{ textDecoration: 'none' }} to='/Notification'>
+            <Badge badgeContent={''} color="error">
+              <Button color="text">Notifications</Button>
+            </Badge>
+          </Link>
+        </ListItem>}
+        {state.login === true && <ListItem >
+          <Link style={{ textDecoration: 'none' }} to='/Review'>
+            <Badge badgeContent={''} color="error">
+              <Button variant="contained" color="secondary">Add review</Button>
+            </Badge>
+          </Link>
+        </ListItem>}
         <ListItem >
           <Link style={{ textDecoration: 'none' }} to='/Book'>
             <Button variant="contained" color="secondary">
               Book Now
             </Button>
           </Link>
+        </ListItem>
+        <ListItem>
+          {state.login !== true && <Link style={{ textDecoration: 'none' }} to='/Login'>
+            <Button variant="outlined" color="secondary">
+              Login
+            </Button>
+          </Link>}
         </ListItem>
       </List>
     </div>
@@ -78,6 +105,25 @@ function DrawerAppBar() {
                     Book Now
                   </Button>
                 </Link>
+                {state.login === true && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Notification '>
+                  <Button color="text">
+                    <Badge badgeContent={''} color="error">
+                      <IoIosNotificationsOutline size={30} color='text' />
+                    </Badge>
+                  </Button>
+                </Link>}
+                {state.login === true &&
+                  <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Review'>
+
+                    <Button variant="contained" color="secondary">Add review</Button>
+
+                  </Link>
+                }
+                {state.login !== true && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Login'>
+                  <Button variant="outlined" color="secondary">
+                    Login
+                  </Button>
+                </Link>}
               </div>
             </Hidden>
           </Grid>

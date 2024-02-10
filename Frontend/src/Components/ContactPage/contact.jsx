@@ -1,12 +1,59 @@
-import React from 'react';
-import { Grid, Typography, TextField, Button, Container, IconButton, Box, Avatar, Divider } from '@mui/material';
-import { LocationOn, Email, Phone, WhatsApp, Instagram, Facebook, Twitter } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { Grid, Typography, TextField, Button, Container, IconButton, Box, Avatar, Divider, Snackbar, Alert } from '@mui/material';
 import { IoLocationOutline } from "react-icons/io5";
 import { CiMail } from "react-icons/ci";
 import { BsTelephone } from "react-icons/bs";
 import { FaInstagram } from "react-icons/fa6";
 import { FaWhatsapp, FaYoutube, FaFacebookF } from "react-icons/fa";
+import axios from 'axios';
 const ContactSection = () => {
+    const [Contact, setContact] = useState({
+        Name: '',
+        Email: '',
+        Mobile: '',
+        Message: '',
+        Service: '',
+    });
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+        message: '',
+        serverity: 'error'
+    });
+    const { vertical, horizontal, open, message, serverity } = state;
+
+    const handleClose = () => {
+        setState({ ...state, open: false });
+    };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setContact({ ...Contact, [name]: value });
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const { Name, Email, Mobile, Service, Message } = Contact;
+            const Data = { Name: Name, Email: Email, Mobile: Mobile, Service: Service, Message: Message };
+            const response = await axios.post('https://salonbackend-s9q2.onrender.com/SendEmail', Data);
+            console.log(response);
+            console.log(response.data.status);
+            if (response.data.status === 200) {
+                setState({ ...state, open: true, message: response.data.message });
+            } else {
+                setState({ ...state, open: true, message: response.data.message });
+            }
+            setContact({
+                Name: '',
+                Email: '',
+                Mobile: '',
+                Message: '',
+                Service: '',
+            });
+        } catch (error) {
+            console.error('Error sending email:', error.message);
+        }
+    }
     return (
         <Container maxWidth="lg" sx={{ marginTop: '2rem', marginBottom: '2rem' }}>
             <Grid container spacing={4}>
@@ -91,7 +138,7 @@ const ContactSection = () => {
                             <span className='Secondary'>Business hours:</span> <strong>Mon-Sat</strong> 8:00 AM - 9:00 PM
                         </Typography>
                         <Grid container spacing={1}>
-                            <Grid item xs={6}>
+                            <Grid item md={6}>
                                 <TextField
                                     sx={{
                                         '& .MuiOutlinedInput-root.Mui-focused fieldset': {
@@ -102,9 +149,12 @@ const ContactSection = () => {
                                         },
                                         marginBottom: '1rem'
                                     }}
+                                    value={Contact.Name}
+                                    name='Name'
+                                    onChange={handleChange}
                                     fullWidth margin="normal" label="Your Name" variant="outlined" />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item md={6}>
                                 <TextField
                                     sx={{
                                         '& .MuiOutlinedInput-root.Mui-focused fieldset': {
@@ -114,9 +164,12 @@ const ContactSection = () => {
                                             color: 'black', // Change 'blue' to your desired focus label color
                                         },
                                         marginBottom: '1rem'
-                                    }} fullWidth margin="normal" label="Your Email" variant="outlined" />
+                                    }}
+                                    value={Contact.Email}
+                                    name='Email'
+                                    onChange={handleChange} fullWidth margin="normal" label="Your Email" variant="outlined" />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item md={6}>
                                 <TextField
                                     sx={{
                                         '& .MuiOutlinedInput-root.Mui-focused fieldset': {
@@ -126,9 +179,13 @@ const ContactSection = () => {
                                             color: 'black', // Change 'blue' to your desired focus label color
                                         },
                                         marginBottom: '1rem'
-                                    }} fullWidth margin="normal" label="Which Service?" variant="outlined" />
+                                    }}
+                                    value={Contact.Service}
+                                    name='Service'
+                                    onChange={handleChange}
+                                    fullWidth margin="normal" label="Which Service?" variant="outlined" />
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item md={6}>
                                 <TextField
                                     sx={{
                                         '& .MuiOutlinedInput-root.Mui-focused fieldset': {
@@ -138,22 +195,30 @@ const ContactSection = () => {
                                             color: 'black', // Change 'blue' to your desired focus label color
                                         },
                                         marginBottom: '1rem'
-                                    }} fullWidth margin="normal" label="Mobile Number" variant="outlined" />
+                                    }}
+                                    value={Contact.Mobile}
+                                    name='Mobile'
+                                    onChange={handleChange}
+                                    fullWidth margin="normal" label="Mobile Number" variant="outlined" />
+                            </Grid>
+                            <Grid item md={12}>
+                                <TextField
+                                    sx={{
+                                        '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+                                            borderColor: 'black', // Change 'blue' to your desired focus border color
+                                        },
+                                        '& .MuiInputLabel-root.Mui-focused': {
+                                            color: 'black', // Change 'blue' to your desired focus label color
+                                        },
+                                        marginBottom: '1rem'
+                                    }}
+                                    value={Contact.Message}
+                                    name='Message'
+                                    onChange={handleChange}
+                                    fullWidth margin="normal" label="Your Message" variant="outlined" multiline rows={4} />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField
-                                    sx={{
-                                        '& .MuiOutlinedInput-root.Mui-focused fieldset': {
-                                            borderColor: 'black', // Change 'blue' to your desired focus border color
-                                        },
-                                        '& .MuiInputLabel-root.Mui-focused': {
-                                            color: 'black', // Change 'blue' to your desired focus label color
-                                        },
-                                        marginBottom: '1rem'
-                                    }} fullWidth margin="normal" label="Your Message" variant="outlined" multiline rows={4} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Button variant="contained" color="secondary1">
+                                <Button variant="contained" onClick={handleSubmit} color="secondary1">
                                     <Typography color={'white'} variant='h6' sx={{ minWidth: '8rem' }} >
                                         Send
                                     </Typography>
@@ -163,7 +228,24 @@ const ContactSection = () => {
                     </Box>
                 </Grid>
             </Grid>
-        </Container >
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+
+                onClose={handleClose}
+                autoHideDuration={3000}
+                key={vertical + horizontal}
+            >
+                <Alert
+                    onClose={handleClose}
+                    severity='success'
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                >
+                    {message}
+                </Alert>
+            </Snackbar>
+        </Container>
     );
 };
 

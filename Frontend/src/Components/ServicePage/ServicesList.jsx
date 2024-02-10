@@ -1,12 +1,11 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography, CardMedia, Container, Button } from '@mui/material';
 import Service1 from '../../Images/service1.jpg';
-import Service3 from '../../Images/service3.jpg';
 import { Link } from 'react-router-dom';
 
 const services = [
     { name: 'Haircut', price: '$25', image: Service1 },
-    { name: 'Manicure', price: '$20', image: Service3 },
+    { name: 'Manicure', price: '$20', image: Service1 },
     { name: 'Pedicure', price: '$30', image: Service1 },
     { name: 'SkinCare', price: '$30', image: Service1 },
 ];

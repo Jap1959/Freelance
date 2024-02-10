@@ -8,7 +8,6 @@ import Service1 from '../../Images/service1.jpg';
 import Service2 from '../../Images/service2.jpg';
 import Service3 from '../../Images/service3.jpg';
 import { Link } from 'react-router-dom';
-import { Superscript } from '@mui/icons-material';
 const ServicesSection = () => {
     const photos = [
         { id: 1, src: Service1, alt: 'Service 1' },

@@ -2,7 +2,6 @@ import React from 'react';
 import { Typography, Container } from '@mui/material';
 import NotFound from '../Images/404.svg'
 const NotFoundPage = () => {
-    const height = window.innerHeight;
     return (
         <Container maxWidth="md" sx={{ textAlign: 'center', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <center>

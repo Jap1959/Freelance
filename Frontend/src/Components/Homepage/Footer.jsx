@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppBar, Box, Button, Container, Divider, Grid, IconButton, TextField, Toolbar, Typography } from '@mui/material';
-import { Facebook, Twitter, Instagram, CenterFocusStrong, Pinterest } from '@mui/icons-material';
+import { AppBar, Button, Container, Divider, Grid, TextField, Toolbar, Typography } from '@mui/material';
+import { Facebook, Twitter, Instagram, Pinterest } from '@mui/icons-material';
 
 function Footer() {
     return (

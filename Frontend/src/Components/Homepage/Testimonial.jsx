@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Container, Typography } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Avatar from '@mui/material/Avatar';
-import Service1 from '../../Images/service1.jpg';
-import Service2 from '../../Images/service2.jpg';
-import Service3 from '../../Images/service3.jpg';
+import axios from 'axios';
 
 const TestimonialSection = () => {
-    const testimonials = [
-        { id: Service1, name: 'John Doe', review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.' },
-        { id: Service2, name: 'Jane Doe', review: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.' },
-    ];
+    const [testimonials, setTestimonials] = useState([]);
+    useEffect(() => {
+        const fetchTestimonials = async () => {
+            try {
+                const response = await axios.get('https://salonbackend-s9q2.onrender.com/testimonials');
+                console.log(response.data.Data);
+                setTestimonials(response.data.Data);
+            } catch (error) {
+                console.error('Error fetching testimonials:', error);
+            }
+        };
+
+        fetchTestimonials();
+    }, []);
 
     return (
         <>
@@ -20,7 +27,7 @@ const TestimonialSection = () => {
                     Our <span className='Secondary'>Testimonials</span>
                 </Typography>
             </center>
-            <Container sx={{ maxWidth: 'md' }}>
+            <Container sx={{ maxWidth: 'md', marginBottom: '3rem' }}>
 
                 <Carousel
                     infiniteLoop={true}
@@ -31,12 +38,12 @@ const TestimonialSection = () => {
                     showStatus={false}
                     showThumbs={false}
                 >
-                    {testimonials.map((testimonial, index) => (
+                    {testimonials.length > 0 && testimonials.map((testimonial, index) => (
                         <div key={index}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12} md={3}>
                                     <Container sx={{ width: '100%' }}>
-                                        <img src={testimonial.id} alt="testimonial" style={{ maxWidth: '100%' }} />
+                                        <img src={testimonial.imageUrl} alt="testimonial" style={{ maxWidth: '100%' }} />
                                     </Container>
                                 </Grid>
                                 <Grid item xs={12} md={9}>
