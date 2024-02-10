@@ -37,14 +37,14 @@ function DrawerAppBar() {
             </Link>
           </ListItem>
         ))}
-        {state.login === true && <ListItem >
+        {state.login === 'true' && <ListItem >
           <Link style={{ textDecoration: 'none' }} to='/Notification'>
             <Badge badgeContent={''} color="error">
               <Button color="text">Notifications</Button>
             </Badge>
           </Link>
         </ListItem>}
-        {state.login === true && <ListItem >
+        {state.login === 'true' && <ListItem >
           <Link style={{ textDecoration: 'none' }} to='/Review'>
             <Badge badgeContent={''} color="error">
               <Button variant="contained" color="secondary">Add review</Button>
@@ -59,7 +59,7 @@ function DrawerAppBar() {
           </Link>
         </ListItem>
         <ListItem>
-          {state.login !== true && <Link style={{ textDecoration: 'none' }} to='/Login'>
+          {state.login !== 'true' && <Link style={{ textDecoration: 'none' }} to='/Login'>
             <Button variant="outlined" color="secondary">
               Login
             </Button>
@@ -105,21 +105,21 @@ function DrawerAppBar() {
                     Book Now
                   </Button>
                 </Link>
-                {state.login === true && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Notification '>
+                {state.login === 'true' && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Notification '>
                   <Button color="text">
                     <Badge badgeContent={''} color="error">
                       <IoIosNotificationsOutline size={30} color='text' />
                     </Badge>
                   </Button>
                 </Link>}
-                {state.login === true &&
+                {state.login === 'true' &&
                   <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Review'>
 
                     <Button variant="contained" color="secondary">Add review</Button>
 
                   </Link>
                 }
-                {state.login !== true && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Login'>
+                {state.login !== 'true' && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Login'>
                   <Button variant="outlined" color="secondary">
                     Login
                   </Button>
