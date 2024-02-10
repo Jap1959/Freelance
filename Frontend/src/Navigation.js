@@ -27,12 +27,11 @@ function Navigation() {
     useEffect(() => {
         async function fetchDetails() {
             try {
-                const res = await axios.get('https://salonbackend-s9q2.onrender.com/isLogin', { withCredentials: true });
-                console.log(res.data);
                 const result = getLoginCookie();
-                if (res.data.login === true || result === true) {
+                console.log("hello" + result);
+                if (result === 'true') {
+                    console.log("hello" + result);
                     const login = result;
-
                     dispatch({ type: "USER", payload: { login: login, } });
                 }
             } catch (err) {
