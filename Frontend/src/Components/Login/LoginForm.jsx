@@ -25,7 +25,10 @@ const LoginForm = () => {
             const response = await axios.post('https://salonbackend-s9q2.onrender.com/Login', Data);
             console.log(response.data);
             if (response.data.status === 200) {
-                localStorage.setItem('isLogin', true);
+                const date = new Date();
+                date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+                const expires = "expires=" + date.toUTCString();
+                document.cookie = 'login' + "=" + true + ";" + expires + ";path=/";
                 setloading(false);
                 Navigate('/');
                 window.location.reload();

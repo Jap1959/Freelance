@@ -23,6 +23,7 @@ function Navigation() {
                 console.log(res.data);
                 if (res.data.login === true) {
                     const login = res.data.login;
+                    
                     dispatch({ type: "USER", payload: { login: login, } });
                 }
             } catch (err) {
