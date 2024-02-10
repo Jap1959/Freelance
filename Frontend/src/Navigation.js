@@ -16,14 +16,23 @@ export const userContext = createContext();
 function Navigation() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [isMobileView, setIsMobileView] = useState(false);
+    const getLoginCookie = () => {
+        const cookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('login='));
+        if (cookie) {
+            return cookie.split('=')[1];
+        } else {
+            return null;
+        }
+    };
     useEffect(() => {
         async function fetchDetails() {
             try {
                 const res = await axios.get('https://salonbackend-s9q2.onrender.com/isLogin', { withCredentials: true });
                 console.log(res.data);
-                if (res.data.login === true) {
-                    const login = res.data.login;
-                    
+                const result = getLoginCookie();
+                if (res.data.login === true || result === true) {
+                    const login = result;
+
                     dispatch({ type: "USER", payload: { login: login, } });
                 }
             } catch (err) {
