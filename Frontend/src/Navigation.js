@@ -19,7 +19,7 @@ function Navigation() {
     useEffect(() => {
         async function fetchDetails() {
             try {
-                const res = await axios.get('https://salonbackend-s9q2.onrender.com/isLogin');
+                const res = await axios.get('https://salonbackend-s9q2.onrender.com/isLogin', { withCredentials: true });
                 console.log(res.data);
                 if (res.data.login === true) {
                     const login = res.data.login;
