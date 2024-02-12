@@ -39,9 +39,9 @@ const ContactSection = () => {
             console.log(response);
             console.log(response.data.status);
             if (response.data.status === 200) {
-                setState({ ...state, open: true, message: response.data.message });
+                setState({ ...state, open: true, message: response.data.message, serverity: 'success' });
             } else {
-                setState({ ...state, open: true, message: response.data.message });
+                setState({ ...state, open: true, message: response.data.message, serverity: 'error' });
             }
             setContact({
                 Name: '',
@@ -238,7 +238,7 @@ const ContactSection = () => {
             >
                 <Alert
                     onClose={handleClose}
-                    severity='success'
+                    severity={serverity}
                     variant="filled"
                     sx={{ width: "100%" }}
                 >

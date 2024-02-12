@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, Typography, Button, Grid, Container } from '@mui/material';
 import axios from 'axios';
 
-function RequestCard({ request,refetchRequests }) {
+function RequestCard({ request, refetchRequests }) {
     const handleAccept = async (e) => {
         e.preventDefault();
         try {

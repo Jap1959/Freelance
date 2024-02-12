@@ -4,17 +4,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { userContext } from '../../Navigation';
-import axios from 'axios';
-import { initialState, reducer } from '../../reducer';
+import Cookies from 'js-cookie';
 const drawerWidth = 240;
 const navItems = [{ item: 'Home', val: '/' }, { item: 'Services', val: '/Services' }, { item: 'About Us', val: '' }, { item: 'Contact Us', val: '/Contactus' }];
 
 function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { dispatch } = useContext(userContext);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+  const handleLogout = () => {
+    Cookies.remove('jwtoken');
+    window.location.reload();
+  }
   const { state } = React.useContext(userContext);
   useEffect(() => {
     console.log(state);
@@ -37,14 +40,14 @@ function DrawerAppBar() {
             </Link>
           </ListItem>
         ))}
-        {state.login === 'true' && <ListItem >
+        {state.login === true && <ListItem >
           <Link style={{ textDecoration: 'none' }} to='/Notification'>
             <Badge badgeContent={''} color="error">
               <Button color="text">Notifications</Button>
             </Badge>
           </Link>
         </ListItem>}
-        {state.login === 'true' && <ListItem >
+        {state.login === true && <ListItem >
           <Link style={{ textDecoration: 'none' }} to='/Review'>
             <Badge badgeContent={''} color="error">
               <Button variant="contained" color="secondary">Add review</Button>
@@ -59,11 +62,15 @@ function DrawerAppBar() {
           </Link>
         </ListItem>
         <ListItem>
-          {state.login !== 'true' && <Link style={{ textDecoration: 'none' }} to='/Login'>
-            <Button variant="outlined" color="secondary">
-              Login
+          {state.login === true ?
+            <Button onClick={handleLogout} variant="outlined" color="secondary">
+              Logout
             </Button>
-          </Link>}
+            : <Link style={{ textDecoration: 'none' }} to='/Login'>
+              <Button variant="outlined" color="secondary">
+                Login
+              </Button>
+            </Link>}
         </ListItem>
       </List>
     </div>
@@ -105,25 +112,29 @@ function DrawerAppBar() {
                     Book Now
                   </Button>
                 </Link>
-                {state.login === 'true' && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Notification '>
+                {state.login === true && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Notification '>
                   <Button color="text">
                     <Badge badgeContent={''} color="error">
                       <IoIosNotificationsOutline size={30} color='text' />
                     </Badge>
                   </Button>
                 </Link>}
-                {state.login === 'true' &&
+                {state.login === true &&
                   <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Review'>
 
                     <Button variant="contained" color="secondary">Add review</Button>
 
                   </Link>
                 }
-                {state.login !== 'true' && <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Login'>
-                  <Button variant="outlined" color="secondary">
-                    Login
-                  </Button>
-                </Link>}
+                {state.login === true ?
+                  <Button style={{ marginLeft: '1rem' }} onClick={handleLogout} variant="outlined" color="secondary">
+                    Logout
+                  </Button> :
+                  <Link style={{ textDecoration: 'none', marginLeft: '1rem' }} to='/Login'>
+                    <Button variant="outlined" color="secondary">
+                      Login
+                    </Button>
+                  </Link>}
               </div>
             </Hidden>
           </Grid>
